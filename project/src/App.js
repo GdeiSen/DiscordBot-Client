@@ -1,15 +1,17 @@
-import './App.css';
-import Button from './components/MyButton/Button'
-import Container from './components/MyButton/Container'
-const buttonArray = ['red','blue','violent','yellow']
-function App() {
-  return (
-    <Container>
-      {buttonArray.map((element)=>
-        <Button className = {`button ${element}`}>{element}</Button>
-      )}
-    </Container>
-  );
+import React from "react"
+import { BrowserRouter } from "react-router-dom"
+import AppRoutes from "./components/AppRoutes"
+import NavBar from "./components/NavBar/NavBar"
+
+
+
+const App=() => {
+  return(
+      <BrowserRouter>
+        <NavBar/>
+        <AppRoutes />
+      </BrowserRouter>
+  )
 }
 
 export default App;
