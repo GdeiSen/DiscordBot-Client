@@ -2,12 +2,29 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Modal from "../components/Modal/ModalDel";
 import ModalAdd from "../components/Modal/ModalAddpost";
+import ModalPost from "../components/Modal/ModalPost"
 const Posts = () => {
   const [posts, setposts] = useState();
   const [idDel, setId] = useState();
   const [filter, setFilter] = useState(posts);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+
+
+
+
+  const [showPost, setShowPost] = useState(false);
+  const [modalPost, setModalPost] = useState({
+    title: "",
+    body: "",
+    id: "",
+  });
+
+
+
+
+
   const getSearch = () => {
     if (filter) {
       return filter;
@@ -63,6 +80,24 @@ const Posts = () => {
     setposts(posts.filter((post) => post.id !== idDel));
     setShowModal(!showModal);
   };
+
+
+
+
+
+  const showPostFunc = (id,body,title) => {
+    setModalPost({
+      title: title,
+      body: body,
+      id: id,
+    })
+    setShowPost(!showPost);
+  };
+
+
+
+
+
   const [post, setpost] = useState({
     title: "",
     body: "",
@@ -140,6 +175,38 @@ const Posts = () => {
             </a>
           </>
         </ModalAdd>
+
+
+
+
+
+        <ModalPost visible={showPost} setVisible={setShowPost}>
+        <div class="row">
+                  <div class="card">
+                    <div class="card-image">
+                      <img src="https://i.yapx.ru/O39J1.jpg"/>
+                      <span class="card-title">{modalPost.title}</span>
+                      <a class="btn-floating halfway-fab waves-effect waves-light red">
+                        <i
+                          class="material-icons"
+                        >
+                          delete
+                        </i>
+                      </a>
+                    </div>
+                    <div class="card-content">
+                      <p>{modalPost.body}</p>
+                      <p>{modalPost.id}</p>
+                    </div>
+                  </div>
+                
+              </div>
+        </ModalPost>
+
+
+
+
+
         <div className="row">
           <div className="input-field col s">
             <i className="material-icons prefix">search</i>
@@ -172,7 +239,7 @@ const Posts = () => {
                 <div class="col s12 m6">
                   <div class="card">
                     <div class="card-image">
-                      <img src="https://i.yapx.ru/O39J1.jpg" />
+                      <img src="https://i.yapx.ru/O39J1.jpg" onClick={()=>showPostFunc(post.id,post.body,post.title)}/>
                       <span class="card-title">{post.title}</span>
                       <a class="btn-floating halfway-fab waves-effect waves-light red">
                         <i
