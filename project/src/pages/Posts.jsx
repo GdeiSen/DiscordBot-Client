@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import Modal from "../components/Modal/ModalDel";
+import ModalDelete from "../components/Modal/ModalDel";
 import ModalAdd from "../components/Modal/ModalAddpost";
-import ModalPost from "../components/Modal/ModalPost"
+import ModalPost from "../components/Modal/ModalPost";
 const Posts = () => {
   const [posts, setposts] = useState();
   const [idDel, setId] = useState();
   const [filter, setFilter] = useState(posts);
-  const [showModal1, setShowModal1] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-
-
-
-
-  const [showPost, setShowPost] = useState(false);
+  const [showModalAdd, setShowModalAdd] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [ShowModalPost, setShowModalPost] = useState(false);
   const [modalPost, setModalPost] = useState({
     title: "",
     body: "",
     id: "",
   });
-
-
-
-
+  const [post, setpost] = useState({
+    title: "",
+    body: "",
+    id: "",
+  });
 
   const getSearch = () => {
     if (filter) {
@@ -32,6 +28,7 @@ const Posts = () => {
     return posts;
   };
   const postsSearch = getSearch();
+
   const onChange = (e) => {
     if (e.target.id == "title") {
       setpost({ ...post, title: e.target.value });
@@ -49,28 +46,30 @@ const Posts = () => {
       );
     }
   };
+
   const addPost = () => {
-    posts.map((elem)=>{
-        if(elem.id == post.id){
-            post.id = post.title;
-        }
-    })
+    posts.map((elem) => {
+      if (elem.id == post.id) {
+        post.id = post.title;
+      }
+    });
     setposts([...posts, post]);
     clear();
   };
-
   useEffect(() => {
     fetchposts();
     setFilter(posts);
   }, []);
 
   const showModalFunc = (id) => {
-    setShowModal(!showModal);
+    setShowModalDelete(!showModalDelete);
     setId(id);
   };
+
   const clear = () => {
     setpost({ title: "", body: "", id: "" });
   };
+
   const fetchposts = async () => {
     const posts = await Axios.get("https://jsonplaceholder.typicode.com/posts");
     setposts(posts.data);
@@ -78,36 +77,23 @@ const Posts = () => {
 
   const deletePost = () => {
     setposts(posts.filter((post) => post.id !== idDel));
-    setShowModal(!showModal);
+    setShowModalDelete(!showModalDelete);
   };
 
-
-
-
-
-  const showPostFunc = (id,body,title) => {
+  const showPostFunc = (id, body, title) => {
     setModalPost({
       title: title,
       body: body,
       id: id,
-    })
-    setShowPost(!showPost);
+    });
+    setShowModalPost(!ShowModalPost);
   };
 
-
-
-
-
-  const [post, setpost] = useState({
-    title: "",
-    body: "",
-    id: "",
-  });
   return (
     <>
       <div className="container">
         <h4>All New And Fresh Posts</h4>
-        <Modal visible={showModal} setVisible={setShowModal}>
+        <ModalDelete visible={showModalDelete} setVisible={setShowModalDelete}>
           <h5>
             Are you really sure that you wanna delete this hecking file from
             this earth?
@@ -120,12 +106,13 @@ const Posts = () => {
           </a>
           <a
             class="waves-effect waves-light btn-large left"
-            onClick={() => setShowModal(!showModal)}
+            onClick={() => setShowModalDelete(!showModalDelete)}
           >
             No
           </a>
-        </Modal>
-        <ModalAdd visible={showModal1} setVisible={setShowModal1}>
+        </ModalDelete>
+
+        <ModalAdd visible={showModalAdd} setVisible={setShowModalAdd}>
           <>
             <div className="input-field col s6">
               <i className="material-icons prefix">add</i>
@@ -176,36 +163,23 @@ const Posts = () => {
           </>
         </ModalAdd>
 
-
-
-
-
-        <ModalPost visible={showPost} setVisible={setShowPost}>
-        <div class="row">
-                  <div class="card">
-                    <div class="card-image">
-                      <img src="https://i.yapx.ru/O39J1.jpg"/>
-                      <span class="card-title">{modalPost.title}</span>
-                      <a class="btn-floating halfway-fab waves-effect waves-light red">
-                        <i
-                          class="material-icons"
-                        >
-                          delete
-                        </i>
-                      </a>
-                    </div>
-                    <div class="card-content">
-                      <p>{modalPost.body}</p>
-                      <p>{modalPost.id}</p>
-                    </div>
-                  </div>
-                
+        <ModalPost visible={ShowModalPost} setVisible={setShowModalPost}>
+          <div class="row">
+            <div class="card">
+              <div class="card-image">
+                <img src="https://i.yapx.ru/O39J1.jpg" />
+                <span class="card-title">{modalPost.title}</span>
+                <a class="btn-floating halfway-fab waves-effect waves-light red">
+                  <i class="material-icons">delete</i>
+                </a>
               </div>
+              <div class="card-content">
+                <p>{modalPost.body}</p>
+                <p>{modalPost.id}</p>
+              </div>
+            </div>
+          </div>
         </ModalPost>
-
-
-
-
 
         <div className="row">
           <div className="input-field col s">
@@ -225,7 +199,7 @@ const Posts = () => {
               <div className="row m-12">
                 <a
                   className="waves-effect waves-light btn"
-                  onClick={() => setShowModal1(!showModal1)}
+                  onClick={() => setShowModalAdd(!showModalAdd)}
                 >
                   Add post
                 </a>
@@ -239,7 +213,12 @@ const Posts = () => {
                 <div class="col s12 m6">
                   <div class="card">
                     <div class="card-image">
-                      <img src="https://i.yapx.ru/O39J1.jpg" onClick={()=>showPostFunc(post.id,post.body,post.title)}/>
+                      <img
+                        src="https://i.yapx.ru/O39J1.jpg"
+                        onClick={() =>
+                          showPostFunc(post.id, post.body, post.title)
+                        }
+                      />
                       <span class="card-title">{post.title}</span>
                       <a class="btn-floating halfway-fab waves-effect waves-light red">
                         <i
