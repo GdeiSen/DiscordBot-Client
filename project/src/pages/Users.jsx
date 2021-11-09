@@ -74,72 +74,79 @@ const fetchUsers = async() => {
   return (
     <div className="App">
       <div className="container">
-        <button onClick = {()=>fetchUsers()}>fetch Users</button>
-          <Modal visible={showModal} setVisible={setShowModal}>
-            <>
-              <div className="input-field col s6">
-                <i className="material-icons prefix">account_circle</i>
-                <input
-                  id="name"
-                  type="text"
-                  class="validate"
-                  value={user.name}
-                  placeholder="EnterName"
-                  onChange={onChange}
-                />
-              </div>
-              <div className="input-field col s6">
-                <i className="material-icons prefix">phone</i>
-                <input
-                  id="phone"
-                  type="tel"
-                  class="validate"
-                  value={user.phone}
-                  placeholder="EnterPhone"
-                  onChange={onChange}
-                />
-              </div>
-              <div className="input-field col s6">
-                <i className="material-icons prefix">mail</i>
-                <input
-                  id="mail"
-                  type="text"
-                  class="validate"
-                  value={user.mail}
-                  placeholder="EnterMail"
-                  onChange={onChange}
-                />
-              </div>
-              <a
-                  id="Add"
-                  className="waves-effect waves-light btn m-1"
-                  onClick={() => addUser()}
-                >
-                  Add
-                </a>
-                <a
-                  className="waves-effect waves-light btn m-1 right"
-                  onClick={() => clear()}
-                >
-                  Cancel
-                </a>
-            </>
-          </Modal>
-          <div className="row m-1">
-            <div className="col s4">
-              <div className="row m-12" />
-              <div className="row m-12">
-                <a
-                  className="waves-effect waves-light btn"
-                  onClick={() => setShowModal(!showModal)}
-                >
-                  Add user
-                </a>
-              </div>
+        <Modal visible={showModal} setVisible={setShowModal}>
+          <>
+            <div className="input-field col s6">
+              <i className="material-icons prefix">account_circle</i>
+              <input
+                id="name"
+                type="text"
+                class="validate"
+                value={user.name}
+                placeholder="EnterName"
+                onChange={onChange}
+              />
             </div>
-            <div className="col s8"></div>
+            <div className="input-field col s6">
+              <i className="material-icons prefix">phone</i>
+              <input
+                id="phone"
+                type="tel"
+                class="validate"
+                value={user.phone}
+                placeholder="EnterPhone"
+                onChange={onChange}
+              />
+            </div>
+            <div className="input-field col s6">
+              <i className="material-icons prefix">mail</i>
+              <input
+                id="mail"
+                type="text"
+                class="validate"
+                value={user.mail}
+                placeholder="EnterMail"
+                onChange={onChange}
+              />
+            </div>
+            <a
+              id="Add"
+              className="waves-effect waves-light btn m-1"
+              onClick={() => addUser()}
+            >
+              Add
+            </a>
+            <a
+              className="waves-effect waves-light btn m-1 right"
+              onClick={() => clear()}
+            >
+              Cancel
+            </a>
+          </>
+        </Modal>
+        <div className="row m-1">
+          <div className="col s4">
+            <div className="row m-12">
+              
+            </div>
+            <div className="row m-12">
+              <a
+                className="waves-effect waves-light btn black right"
+                onClick={() => fetchUsers()}
+              >
+                Fetch Users
+              </a>
+              <a
+                className="waves-effect waves-light btn black"
+                onClick={() => setShowModal(!showModal)}
+              >
+                Add user
+              </a>
+            </div>
           </div>
-          {/* {loading? (
+          <div className="col s8"></div>
+        </div>
+        {/* {loading? (
             <div className = "container center"><Loader
             type="Bars"
             color="#FF7375"
@@ -152,9 +159,9 @@ const fetchUsers = async() => {
             {users}
           </UserList>
           )} */}
-          <UserList search={true} deleteUser={removeUser}>
-            {users}
-          </UserList>
+        <UserList search={true} deleteUser={removeUser}>
+          {users}
+        </UserList>
       </div>
     </div>
   );

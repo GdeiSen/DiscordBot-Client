@@ -10,6 +10,8 @@ const Posts = () => {
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [ShowModalPost, setShowModalPost] = useState(false);
+  const [PostsMaximum, setPostsMaximum] = useState(5);
+  let index = 0;
   const [modalPost, setModalPost] = useState({
     title: "",
     body: "",
@@ -30,6 +32,7 @@ const Posts = () => {
   const postsSearch = getSearch();
 
   const onChange = (e) => {
+    setPostsMaximum(5);
     if (e.target.id == "title") {
       setpost({ ...post, title: e.target.value });
     } else if (e.target.id == "body") {
@@ -95,17 +98,16 @@ const Posts = () => {
         <h4>All New And Fresh Posts</h4>
         <ModalDelete visible={showModalDelete} setVisible={setShowModalDelete}>
           <h5>
-            Are you really sure that you wanna delete this hecking file from
-            this earth?
+            Are you really sure that you wanna delete this file from dataBase?
           </h5>
           <a
-            class="waves-effect waves-light btn-large right"
+            class="waves-effect waves-light btn-large right black"
             onClick={() => deletePost()}
           >
             Yes
           </a>
           <a
-            class="waves-effect waves-light btn-large left"
+            class="waves-effect waves-light btn-large left black"
             onClick={() => setShowModalDelete(!showModalDelete)}
           >
             No
@@ -198,7 +200,7 @@ const Posts = () => {
               <div className="row m-12" />
               <div className="row m-12">
                 <a
-                  className="waves-effect waves-light btn"
+                  className="waves-effect waves-light btn black"
                   onClick={() => setShowModalAdd(!showModalAdd)}
                 >
                   Add post
@@ -207,9 +209,11 @@ const Posts = () => {
             </div>
             <div className="col s8"></div>
           </div>
-          {postsSearch &&
-            postsSearch.map((post) => (
-              <div class="row">
+          {postsSearch && postsSearch.map((post) => {
+            if(PostsMaximum > index){
+              index++;
+            return(
+            <div class="row">
                 <div class="col s12 m6">
                   <div class="card">
                     <div class="card-image">
@@ -235,9 +239,15 @@ const Posts = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}})}
         </div>
+        <a
+          className="waves-effect waves-light btn black"
+          onClick={() => {setPostsMaximum(PostsMaximum+5)}}
+        >
+          Show More
+        </a>
+        <div className="row"/>
       </div>
     </>
   );
