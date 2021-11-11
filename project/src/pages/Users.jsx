@@ -111,13 +111,13 @@ const fetchUsers = async() => {
             </div>
             <a
               id="Add"
-              className="waves-effect waves-light btn m-1"
+              className="waves-effect waves-light btn m-1 black"
               onClick={() => addUser()}
             >
               Add
             </a>
             <a
-              className="waves-effect waves-light btn m-1 right"
+              className="waves-effect waves-light btn m-1 right black"
               onClick={() => clear()}
             >
               Cancel

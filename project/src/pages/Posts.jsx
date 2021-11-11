@@ -3,6 +3,7 @@ import Axios from "axios";
 import ModalDelete from "../components/Modal/ModalDel";
 import ModalAdd from "../components/Modal/ModalAddpost";
 import ModalPost from "../components/Modal/ModalPost";
+import ReactPaginate from "react-paginate";
 const Posts = () => {
   const [posts, setposts] = useState();
   const [idDel, setId] = useState();
@@ -11,7 +12,9 @@ const Posts = () => {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [ShowModalPost, setShowModalPost] = useState(false);
   const [PostsMaximum, setPostsMaximum] = useState(5);
-  let index = 0;
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const pageCount = 100/limit;
   const [modalPost, setModalPost] = useState({
     title: "",
     body: "",
@@ -22,6 +25,10 @@ const Posts = () => {
     body: "",
     id: "",
   });
+
+  const pageChange = async (page) => {
+    setPage(page.selected - 1)
+  }
 
   const getSearch = () => {
     if (filter) {
@@ -62,7 +69,7 @@ const Posts = () => {
   useEffect(() => {
     fetchposts();
     setFilter(posts);
-  }, []);
+  }, [page]);
 
   const showModalFunc = (id) => {
     setShowModalDelete(!showModalDelete);
@@ -74,7 +81,12 @@ const Posts = () => {
   };
 
   const fetchposts = async () => {
-    const posts = await Axios.get("https://jsonplaceholder.typicode.com/posts");
+    const posts = await Axios.get("https://jsonplaceholder.typicode.com/posts",{
+      params:{
+        _limit:limit,
+        _page: page
+      }
+    });
     setposts(posts.data);
   };
 
@@ -210,9 +222,9 @@ const Posts = () => {
             <div className="col s8"></div>
           </div>
           {postsSearch && postsSearch.map((post) => {
-            if(PostsMaximum > index){
-              index++;
-            return(
+            // if(PostsMaximum > index){
+            //   index++;
+             return(
             <div class="row">
                 <div class="col s12 m6">
                   <div class="card">
@@ -239,14 +251,25 @@ const Posts = () => {
                     </div>
                   </div>
                 </div>
-              </div>)}})}
+              </div>)})}
         </div>
-        <a
+        {/* <a
           className="waves-effect waves-light btn black"
           onClick={() => {setPostsMaximum(PostsMaximum+5)}}
         >
           Show More
-        </a>
+        </a> */}
+        <ReactPaginate
+          className="pagination pointer"
+          activeClassName = "active black"
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={pageChange}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+      />
         <div className="row"/>
       </div>
     </>
