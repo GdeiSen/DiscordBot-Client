@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import ModalDelete from "../components/Modal/ModalDel";
 import ModalAdd from "../components/Modal/ModalAddpost";
 import ModalPost from "../components/Modal/ModalPost";
 import ReactPaginate from "react-paginate";
 const Posts = () => {
-  const [posts, setposts] = useState();
+  const trigger = useRef(null);
+  const [posts, setposts] = useState([]);
   const [idDel, setId] = useState();
   const [filter, setFilter] = useState(posts);
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [ShowModalPost, setShowModalPost] = useState(false);
+  const [loadData, setLoadData] = useState(false);
+  const observer = useRef(null);
   const [PostsMaximum, setPostsMaximum] = useState(5);
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -27,7 +30,7 @@ const Posts = () => {
   });
 
   const pageChange = async (page) => {
-    setPage(page.selected - 1)
+    setPage(page.selected + 1)
   }
 
   const getSearch = () => {
@@ -66,6 +69,16 @@ const Posts = () => {
     setposts([...posts, post]);
     clear();
   };
+
+  useEffect(() => {
+    if(loadData) return;
+    if(observer.current) observer.current.disconnect();
+    const callback = function(entries, observer){
+        if(entries[0].isIntersecting){setPage(page+1)}}
+    observer.current = new IntersectionObserver(callback);
+    observer.current.observe(trigger.current);
+  }, [loadData]);
+
   useEffect(() => {
     fetchposts();
     setFilter(posts);
@@ -81,13 +94,15 @@ const Posts = () => {
   };
 
   const fetchposts = async () => {
-    const posts = await Axios.get("https://jsonplaceholder.typicode.com/posts",{
+    setLoadData(true);
+    const postsFetched = await Axios.get("https://jsonplaceholder.typicode.com/posts",{
       params:{
         _limit:limit,
         _page: page
       }
     });
-    setposts(posts.data);
+    setposts([...posts,...postsFetched.data]);
+    setLoadData(false);
   };
 
   const deletePost = () => {
@@ -195,7 +210,7 @@ const Posts = () => {
           </div>
         </ModalPost>
 
-        <div className="row">
+        <div className="row m-12">
           <div className="input-field col s">
             <i className="material-icons prefix">search</i>
             <textarea
@@ -221,7 +236,7 @@ const Posts = () => {
             </div>
             <div className="col s8"></div>
           </div>
-          {postsSearch && postsSearch.map((post) => {
+          {postsSearch && posts.map((post) => {
             // if(PostsMaximum > index){
             //   index++;
              return(
@@ -259,6 +274,7 @@ const Posts = () => {
         >
           Show More
         </a> */}
+        <div ref = {trigger}>Trigger</div>
         <ReactPaginate
           className="pagination pointer"
           activeClassName = "active black"
@@ -268,7 +284,6 @@ const Posts = () => {
           pageRangeDisplayed={5}
           pageCount={pageCount}
           previousLabel="< previous"
-          renderOnZeroPageCount={null}
       />
         <div className="row"/>
       </div>

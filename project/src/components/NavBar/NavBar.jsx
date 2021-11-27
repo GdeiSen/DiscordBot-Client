@@ -28,6 +28,9 @@ const NavBar = () => {
             <li>
               <Link to="/posts">Posts</Link>
             </li>
+            <li>
+              <Link to="/servers">Servers</Link>
+            </li>
             <a
               class="waves-effect waves-light btn white black-text"
               onClick={() => {logout()}}

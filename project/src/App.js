@@ -1,4 +1,5 @@
-import {React, useState, useEffect} from "react"
+import {useState, useEffect} from "react"
+import React from 'react'
 import { BrowserRouter } from "react-router-dom"
 import AppRoutes from "./components/AppRoutes"
 import NavBar from "./components/NavBar/NavBar"
