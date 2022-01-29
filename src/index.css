@@ -1,0 +1,146 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.hide_container{
+  opacity: 0;
+  display:none;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.notification-container{
+  z-index: 6;
+  width:50%;
+  height:100%;
+  position: absolute;
+  right:0;
+
+}
+
+.player-button-side{
+  font-size: 1.5rem;
+  padding: 0.3rem;
+  transition: 0.5s;
+  border-radius: 1rem;
+}
+
+.player-button-center{
+  font-size: 2rem;
+  transition: 0.5s;
+}
+.margin-top{
+  margin-top:2rem;
+}
+.margin-bottom{
+  margin-bottom:2rem;
+}
+.player-button-center:hover{
+  -webkit-text-stroke: 0.1rem black;
+}
+.field .field-option{
+  border-bottom: solid rgb(212, 212, 212) 1px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.field .field-option:hover{
+  background-color: rgb(189, 189, 189);
+}
+.player-button-side:hover{
+  -webkit-text-stroke: 0.1rem black;
+}
+.option-collapse-field {
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+}
+.option-collapse-field .button {
+  background-color: rgb(236, 238, 240);
+  border-radius: 5px;
+  padding:1rem;
+  transition: 0.5s;
+}
+.option-collapse-field .button {
+  border-radius: 5px;
+  padding:1rem;
+  margin-right:0.5rem;
+}
+
+.option-collapse-field .copy-button:hover {
+  background-color: rgb(85, 82, 255);
+}
+.option-collapse-field .remove-button:hover {
+  background-color: rgb(255, 82, 82);
+}
+.player-under-field{
+  width: 10rem;
+  border-radius: 0.5rem;
+  padding:0.5rem;
+  background-color: white;
+  margin-top:2rem;
+}
+
+.dashboard-card .field{
+  background-color: white;
+  border-radius: 0.5rem;
+  padding:0.5rem;
+  width:100%;
+  overflow-y: auto;
+  max-height: 25vh;
+}
+
+.dashboard-card{
+  background-color: rgb(236, 238, 240);
+  border-radius: 0.5rem;
+  padding:1rem;
+  width:calc(50% - 2rem);
+  max-height: 50vh;
+  overflow-y: auto;
+  transition: 0.5s;
+}
+
+.dashboard-card:hover{
+  
+  box-shadow: 0 0 10px rgba(151, 151, 151, 0.5);
+}
+
+.card-img{
+  margin-top:1%;
+  width:10rem;
+  height:10rem;
+  margin-right: 2rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 1600px) {
+  .dashboard-card{
+      width:100%;
+      margin-bottom:2rem;
+  }
+}
+.button-bg{
+  background-color: black;
+  color:white;
+  height:2.5rem;
+  width:2.5rem;
+}
+
+.button-bg:hover{
+  background-color: gray;
+  color:black;
+}
