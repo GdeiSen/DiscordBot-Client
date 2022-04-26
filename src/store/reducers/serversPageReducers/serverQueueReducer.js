@@ -1,10 +1,10 @@
 const defaultState = {
     queue: [],
 };
-export const serverQueueReducer = (state = defaultState, action) => {
+export const serverQueueReducer = (state = null, action) => {
     switch (action.type) {
         case "SET_SERVER_QUEUE":
-            return { ...state, queue: action.payload };
+            return action.payload;
         default:
             return state;
     }

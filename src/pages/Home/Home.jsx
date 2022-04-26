@@ -1,5 +1,10 @@
 import React from "react";
+import "./Home.scss"
+import { useSelector } from "react-redux";
+import ServerStatusCard from '../../components/ServerStatusCard/ServerStatusCard'
+import UsageBarCard from "../../components/UsageBarCard/UsageBarCard";
 const Home = () => {
+    const store = useSelector(state => state);
     const showGreeting = () => {
         let date = new Date();
         let hours = date.getHours();
@@ -8,18 +13,14 @@ const Home = () => {
     }
 
     return (
+
         <div className="container-fluid margin-top">
-            <div className="d-flex dashboard-card align-self-start">
-                <div className="w-100">
-                    <div className="d-flex justify-content-between">
-                        <div className="d-flex">
-                            <h2>API Status</h2>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+            <h2>{showGreeting()}</h2>
+            <hr></hr>
+            <ServerStatusCard/>
+            <UsageBarCard/>
         </div>
+
     )
 }
 export default Home

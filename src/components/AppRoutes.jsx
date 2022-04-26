@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Login from "../pages/Login";
-import Home from "../pages/Home";
-import Servers from "../pages/Servers";
+import Login from "../pages/Login/Login";
+import Home from "../pages/Home/Home";
+import Servers from "../pages/Servers/Servers";
 import AuthContext from "../context/authorization";
 const AppRoutes = () => {
   const { authState } = useContext(AuthContext);

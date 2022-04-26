@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector } from "react-redux";
-const ServerList = (props) => {
+const ServerListCard = (props) => {
     const [showError, setShowError] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
     let timer;
@@ -15,9 +14,10 @@ const ServerList = (props) => {
         }
     }, [props.children])
     if (props.children) {
-        clearTimeout(timer); return (
-            <>{props &&
-                <div className={props.serversVisible ? "d-flex dashboard-card" : "hide_container"}>
+        clearTimeout(timer);
+        return (
+            <>{props.children &&
+                <div className={props.isVisible ? "d-flex dashboard-card" : "hide_container"}>
                     <div className="w-100">
                         <div className="d-flex justify-content-between">
                             <div className="d-flex">
@@ -34,7 +34,7 @@ const ServerList = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {props?.children && props.children.map((server) => (
+                                {props.children && props.children.map((server) => (
                                     <tr key={uuidv4()}>
                                         {props.children && Object.values(server).map((element) => (<td key={uuidv4()}>{element}</td>))}
                                         <td key={uuidv4()}><i className="small material-icons pointer"
@@ -65,4 +65,4 @@ const ServerList = (props) => {
         </>)
     }
 }
-export default ServerList
+export default ServerListCard

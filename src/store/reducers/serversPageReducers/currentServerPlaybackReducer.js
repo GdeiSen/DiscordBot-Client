@@ -1,10 +1,10 @@
 const defaultState = {
     currentServerPlayback: null,
 };
-export const currentServerPlaybackReducer = (state = defaultState, action) => {
+export const currentServerPlaybackReducer = (state = null, action) => {
     switch (action.type) {
         case "SET_CURRENT_SERVER_PLAYBACK":
-            return { ...state, currentServerPlayback: action.payload };
+            return action.payload;
         default:
             return state;
     }
