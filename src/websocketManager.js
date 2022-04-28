@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 const { io } = require("socket.io-client");
 const EventEmitter = require('events');
+const axios = require('axios').default;
 
 export default class websocketManager extends EventEmitter {
 
@@ -8,6 +9,7 @@ export default class websocketManager extends EventEmitter {
     super();
     this.token = 'test';
     this.dispatch = useDispatch();
+    this.on('message', (message) => { this.dataResolver(message) })
   }
 
   connect() {
@@ -25,21 +27,24 @@ export default class websocketManager extends EventEmitter {
     })
 
     this.socket.on('data', (message) => {
-      try {
-        console.log(message, 1111111111)
-        switch (message.dataType) {
-          case "servers": this.dispatch({ type: "SET_SERVER_LIST", payload: message.data }); break;
-          case "serverUsers": this.dispatch({ type: "SET_USER_LIST", payload: message.data }); break;
-          case "currentPlayback": this.dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: message.data }); break;
-          case "serverQueue": this.dispatch({ type: "SET_SERVER_QUEUE", payload: message.data }); break;
-          case "error": this.errorAnalys(message); break;
-          case "test": this.testAnalys(message); break;
-          default: break
-        }
-        this.emit('MESSAGE', message.type, message.data);
-      } catch { }
+      this.emit('message', message)
     })
 
+  }
+
+  dataResolver(message) {
+    try {
+      switch (message.dataType) {
+        case "servers": this.dispatch({ type: "SET_SERVER_LIST", payload: message.data }); break;
+        case "serverUsers": this.dispatch({ type: "SET_USER_LIST", payload: message.data }); break;
+        case "currentPlayback": this.dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: message.data }); break;
+        case "serverQueue": this.dispatch({ type: "SET_SERVER_QUEUE", payload: message.data }); break;
+        case "error": this.errorAnalys(message); break;
+        case "test": this.testAnalys(message); break;
+        default: break
+      }
+      this.emit('message', message.type, message.data);
+    } catch { }
   }
 
   async errorAnalys(message) {
@@ -53,7 +58,27 @@ export default class websocketManager extends EventEmitter {
     if (message.data == "Test Completed") this.dispatch({ type: "SET_MAIN_SERVER_STATUS", payload: 'connected' });
   }
 
-  async getData(path, args) {
+
+  getData(path, args, options) {
+    if ((path && args) || options == 'socket') {
+      this.getData_SOCKET(path, args);
+    }
+    else if ((path && !args) || options == 'http') {
+      this.getData_HTTP(path)
+    }
+  }
+
+  sendData(path, data, options) {
+    if (options == 'socket') {
+      this.sendData_SOCKET(path, data);
+    }
+    else if (options == 'http') {
+      this.sendData_HTTP(path, data)
+    }
+    else {this.sendData_SOCKET(path, data)}
+  }
+
+  async getData_SOCKET(path, args) {
     const message = {
       type: 'request',
       token: this.token,
@@ -62,20 +87,42 @@ export default class websocketManager extends EventEmitter {
       recipient: 'client_server',
       destination: 'app_server',
     }
-    console.log(message);
     this.socket.emit('request', message)
   }
 
-  async sendData(dataType, data) {
+  async sendData_SOCKET(path, data) {
     const message = {
       type: 'data',
       token: this.token,
-      dataType: dataType,
+      path: path,
       data: data,
       recipient: 'client_server',
       destination: 'app_server',
     }
-    console.log(message);
     this.socket.emit('data', message);
   }
+
+  async getData_HTTP(path) {
+    axios.get(`http://localhost:5001/${path}`, {})
+      .then(function (response) {
+        this.emit('message', response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  async sendData_HTTP(path, data) {
+    axios.post(`http://localhost:5001/${path}`, { data })
+      .then(function (response) {
+        this.emit('message', response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+
+
 }

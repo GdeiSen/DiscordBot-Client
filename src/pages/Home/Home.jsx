@@ -18,7 +18,7 @@ const Home = () => {
             <h2>{showGreeting()}</h2>
             <hr></hr>
             <ServerStatusCard/>
-            <UsageBarCard/>
+            
         </div>
 
     )
