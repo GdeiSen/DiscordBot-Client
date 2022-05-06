@@ -17,14 +17,14 @@ const ServerStatusCard = () => {
                     <div className="d-flex ">
                         <h2>API Status</h2>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center dashboard-card-field">
+                    <div className="d-flex justify-content-between align-items-center field">
                         <div>
                             <h5>Main Server Status:</h5>
                             <h6>{store.mainServerStatus}</h6>
                         </div>
                         <div className={showStatusIndicator(store.mainServerStatus)}></div>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center dashboard-card-field">
+                    <div className="d-flex justify-content-between align-items-center field">
                         <div>
                             <h5>External Server Status:</h5>
                             <h6>{store.externalServerStatus}</h6>

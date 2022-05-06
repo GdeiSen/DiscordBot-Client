@@ -4,6 +4,7 @@ import ServerListCard from "../../components/ServerListCard/ServerlistTab"
 import ServerPlaybackCard from "../../components/PlaybackCard/PlaybackTab"
 import { useDispatch, useSelector } from "react-redux";
 
+
 const Servers = () => {
   const dispatch = useDispatch();
   const store = useSelector(state => state);
@@ -26,9 +27,9 @@ const Servers = () => {
   }, [store.websocketManager])
 
   function getServerInfo(server) {
-    getData('serverUsers', { serverId: server.ServerId });
-    getData('currentPlayback', { serverId: server.ServerId });
-    getData('serverQueue', { serverId: server.ServerId });
+    getData(`serverUsers/${server.ServerId}`);
+    getData(`currentPlayback/${server.ServerId}`);
+    getData(`serverQueue/${server.ServerId}`);
     dispatch({ type: "SET_CURRENT_SERVER", payload: server });
   }
 

@@ -1,63 +1,40 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap-grid.min.css";
-.dashboard-card {
-    background-color: rgb(236, 238, 240);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    width: calc(50% - 2rem);
-    max-height: 50vh;
-    overflow-y: auto;
-    transition: 0.5s;
-}
-@media (max-width: 1600px) {
-    .dashboard-card {
-        width: 100%;
-        margin-bottom: 2rem;
-    }
-}
-.dashboard-card:hover {
-    box-shadow: 0 0 10px rgba(151, 151, 151, 0.5);
-}
 .indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
+
 .yellow {
-    animation: yellow-blink 1s infinite reverse;
+  animation: yellow-blink 1s infinite reverse;
 }
 .red {
-    animation: red-blink 1s infinite reverse;
+  animation: red-blink 1s infinite reverse;
 }
 .green {
-    animation: green-blink 1s infinite reverse;
+  animation: green-blink 1s infinite reverse;
 }
 @keyframes red-blink {
-    0% {
-        background-color: rgb(236, 238, 240);
-    }
-    100% {
-        background-color: red;
-    }
+  0% {
+    background-color: rgb(236, 238, 240);
+  }
+  100% {
+    background-color: red;
+  }
 }
 @keyframes yellow-blink {
-    0% {
-        background-color: rgb(236, 238, 240);
-    }
-    100% {
-        background-color: rgb(255, 196, 0);
-    }
+  0% {
+    background-color: rgb(236, 238, 240);
+  }
+  100% {
+    background-color: rgb(255, 196, 0);
+  }
 }
 @keyframes green-blink {
-    0% {
-        background-color: rgb(236, 238, 240);
-    }
-    100% {
-        background-color: rgb(72, 255, 0);
-    }
-}
-.dashboard-card-field {
-    background: white;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
+  0% {
+    background-color: rgb(236, 238, 240);
+  }
+  100% {
+    background-color: rgb(72, 255, 0);
+  }
 }

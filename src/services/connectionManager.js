@@ -2,14 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 const { io } = require("socket.io-client");
 const EventEmitter = require('events');
 const axios = require('axios').default;
+const MessageEmmiter = new EventEmitter;
 
-export default class websocketManager extends EventEmitter {
+export default class ConnectionManager extends EventEmitter {
 
   constructor() {
     super();
     this.token = 'test';
     this.dispatch = useDispatch();
-    this.on('message', (message) => { this.dataResolver(message) })
+    MessageEmmiter.on('message', (message) => { this.dataResolver(message) })
   }
 
   connect() {
@@ -34,16 +35,16 @@ export default class websocketManager extends EventEmitter {
 
   dataResolver(message) {
     try {
-      switch (message.dataType) {
-        case "servers": this.dispatch({ type: "SET_SERVER_LIST", payload: message.data }); break;
-        case "serverUsers": this.dispatch({ type: "SET_USER_LIST", payload: message.data }); break;
-        case "currentPlayback": this.dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: message.data }); break;
-        case "serverQueue": this.dispatch({ type: "SET_SERVER_QUEUE", payload: message.data }); break;
+      switch (message.data.contentType) {
+        case "servers": this.dispatch({ type: "SET_SERVER_LIST", payload: message.data.content }); break;
+        case "serverUsers": this.dispatch({ type: "SET_USER_LIST", payload: message.data.content }); break;
+        case "currentPlayback": this.dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: message.data.content }); break;
+        case "serverQueue": this.dispatch({ type: "SET_SERVER_QUEUE", payload: message.data.content }); break;
         case "error": this.errorAnalys(message); break;
         case "test": this.testAnalys(message); break;
         default: break
       }
-      this.emit('message', message.type, message.data);
+      MessageEmmiter.emit('message', message.type, message.data);
     } catch { }
   }
 
@@ -103,9 +104,10 @@ export default class websocketManager extends EventEmitter {
   }
 
   async getData_HTTP(path) {
-    axios.get(`http://localhost:5001/${path}`, {})
+    axios.get(`http://localhost:5000/${path}`, {})
       .then(function (response) {
-        this.emit('message', response)
+        MessageEmmiter.emit('message', response)
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -113,9 +115,9 @@ export default class websocketManager extends EventEmitter {
   }
 
   async sendData_HTTP(path, data) {
-    axios.post(`http://localhost:5001/${path}`, { data })
+    axios.post(`http://localhost:5000/${path}`, { data })
       .then(function (response) {
-        this.emit('message', response)
+        MessageEmmiter.emit('message', response)
       })
       .catch(function (error) {
         console.log(error);

@@ -46,23 +46,27 @@
     background-color: white;
     margin-top:2rem;
   }
-  .dashboard-card .field{
-    background-color: white;
-    border-radius: 0.5rem;
-    padding:0.5rem;
-    width:100%;
-    overflow-y: auto;
-    max-height: 25vh;
-  }
   .dashboard-card{
     background-color: rgb(236, 238, 240);
     border-radius: 0.5rem;
     padding:1rem;
-    width:calc(50% - 2rem);
+    width:calc(50% - 1rem);
     max-height: 50vh;
     overflow-y: auto;
     transition: 0.5s;
   }
+  .field{
+    margin-bottom:1rem;
+    max-height: 25vh ;
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding:0.5rem;
+    width:100%;
+    overflow-y:auto;
+  }
+
   .dashboard-card:hover{
     
     box-shadow: 0 0 10px rgba(151, 151, 151, 0.5);

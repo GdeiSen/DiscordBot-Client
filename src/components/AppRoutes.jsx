@@ -1,20 +1,22 @@
 import React, { useContext } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
 import Servers from "../pages/Servers/Servers";
+import Server from "../pages/Server/Server";
 import AuthContext from "../context/authorization";
+import { Layout } from "../components/Layout/Layout"
 const AppRoutes = () => {
-  const { authState } = useContext(AuthContext);
-  return (authState) ? (
-    <Switch>
-      <Route path="/servers" component={Servers} />
-      <Route path="/home" component={Home} />
-      <Redirect to="/home" />
-    </Switch>) : (<Switch>
-      <Route path="/login" component={Login} />
-      <Redirect to="/login" />
-    </Switch>
-  );
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="servers/:serverId" element={<Server />} />
+          <Route path="servers" element={<Servers />} />
+        </Route>
+      </Routes>
+    </>
+  )
 };
 export default AppRoutes;

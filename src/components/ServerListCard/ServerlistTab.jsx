@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { Link } from "react-router-dom";
 const ServerListCard = (props) => {
     const [showError, setShowError] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
@@ -27,7 +28,7 @@ const ServerListCard = (props) => {
                                 <button className="btn button-bg" type="submit"><i className="bi bi-arrow-clockwise"></i></button>
                             </div>
                         </div>
-                        <table className="table">
+                        <table className="table field">
                             <thead>
                                 <tr>
                                     {props?.children && Object.keys(props.children[0]).map((key) => (<th scope="col" key={key}>{key}</th>))}
@@ -40,11 +41,14 @@ const ServerListCard = (props) => {
                                         <td key={uuidv4()}><i className="small material-icons pointer"
                                             onClick={() =>
                                                 props.showInfo(server)
-                                            }>chevron_right</i></td>
+                                            }>chevron_right</i><Link to={`/${server}`}>{server.Id}</Link></td>
                                     </tr>
                                 ))}
                             </tbody>
-                        </table></div></div>}</>
+                        </table>
+                    </div>
+                </div>}
+            </>
         )
     }
     else {
