@@ -1,0 +1,14 @@
+.text-container{
+    border-radius: 0.5rem;
+    padding:1rem;
+    width:calc(50% - 1rem);
+    max-height: 50vh;
+    overflow-y: auto;
+    transition: 0.5s;
+}
+@media (max-width: 1080px) {
+    .text-container{
+        width:100%;
+        margin-bottom:2rem;
+    }
+  }

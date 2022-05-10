@@ -1,4 +1,4 @@
-import { useRef } from "react";
+
 const EventEmitter = require('events');
 export default class TokenManager extends EventEmitter {
     constructor() {

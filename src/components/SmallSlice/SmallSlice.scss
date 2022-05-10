@@ -1,0 +1,19 @@
+@import "../main.scss";
+.small-slice-container {
+  z-index: -10;
+  background: linear-gradient(
+    to left,
+    $style-color-light,
+    $style-color-dark
+  );
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom-right-radius: 20px;
+  h2{
+    color: white;
+    margin-left: 2rem
+  }
+}

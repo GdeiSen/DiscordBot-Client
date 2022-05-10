@@ -1,26 +1,22 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import React from 'react'
 import { BrowserRouter } from "react-router-dom"
 import AppRoutes from "./components/AppRoutes"
 import ConnectionManager from "./services/connectionManager"
 import { useDispatch } from "react-redux"
-import TokenManager from "./services/tokenManager"
+import { setConnectionManager } from "./store/reducers/connectionManagerSlice"
 
 const App = () => {
   const dispatch = useDispatch();
-  const [authState, setAuthState] = useState(true);
-  const tokenManager = new TokenManager();
   const connectionManager = new ConnectionManager();
-  connectionManager.connect();
   useEffect(() => {
-    setAuthState(true);
-    dispatch({ type: "SET_TOKEN_MANAGER", payload: tokenManager });
-    dispatch({ type: "SET_WEBSOCKET_MANAGER", payload: connectionManager });
+    dispatch(setConnectionManager(connectionManager));
+    connectionManager.connect();
   }, [])
 
   return (
     <BrowserRouter>
-      <AppRoutes/>
+      <AppRoutes />
     </BrowserRouter>
   )
 }

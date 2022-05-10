@@ -1,33 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "../main.scss";
-const ServerPlaybackCard = (props) => {
-  let current = {
-    title: null,
-    volume: null,
-    songLoop: null,
-    queueLoop: null,
-    thumbnail: null,
-  };
-  if (props.children) {
-    current.title = Object.values(props.children)[1];
-    current.songLoop =
-      Object.values(props.children)[2] === 1 ? "true" : "false";
-    current.queueLoop =
-      Object.values(props.children)[3] === 1 ? "true" : "false";
-    current.thumbnail = Object.values(props.children)[4];
-  }
-  function updatePlaybackData() {
-    setTimeout(() => {
-      props.websocketManager.getData("getCurrentPlayback", {
-        serverId: props.currentServer.ServerId,
-      });
-      props.websocketManager.getData("getServerQueue", {
-        serverId: props.currentServer.ServerId,
-      });
-    }, 100);
-  }
+import WarningField from "../WarningField/WarningField";
+const ServerPlaybackCard = () => {
+  const store = useSelector((state) => state);
   function currentSong() {
-    if (current.title) {
+    if (store.currentPlayback.title) {
       return (
         <>
           <hr />
@@ -35,8 +13,8 @@ const ServerPlaybackCard = (props) => {
             <div className="d-flex flex-column">
               <img
                 className="d-flex dashboard-card-img"
-                src={current.thumbnail}
-                alt={current.title}
+                src={store.currentPlayback.thumbnail}
+                alt={store.currentPlayback.title}
               ></img>
               <div className="d-flex flex-row justify-content-between player-under-field">
                 <div className="d-flex align-items-center">
@@ -46,11 +24,10 @@ const ServerPlaybackCard = (props) => {
                   <i
                     className="bi bi-pause-circle-fill player-button-center"
                     onClick={() => {
-                      props.websocketManager.sendData(
+                      store.connectionManager.sendData(
                         "togglePauseSongFunctionActivated",
-                        { serverId: props.currentServer.ServerId }
+                        { serverId: store.currentServer.ServerId }
                       );
-                      updatePlaybackData();
                     }}
                   ></i>
                 </div>
@@ -58,11 +35,10 @@ const ServerPlaybackCard = (props) => {
                   <i
                     className="bi bi-skip-forward-fill player-button-side"
                     onClick={() => {
-                      props.websocketManager.sendData(
+                      store.connectionManager.sendData(
                         "skipSongFunctionActivated",
-                        { serverId: props.currentServer.ServerId }
+                        { serverId: store.currentServer.ServerId }
                       );
-                      updatePlaybackData();
                     }}
                   ></i>
                 </div>
@@ -72,42 +48,41 @@ const ServerPlaybackCard = (props) => {
               <div className="d-flex flex-column field">
                 <div>
                   <h5>Now Playing: </h5>
-                  <h6>{current.title}</h6>
+                  <h6>{store.currentPlayback.title}</h6>
                 </div>
               </div>
               <div className="d-flex flex-column field margin-top">
                 <h5>Next In Queue:</h5>
-                {props.serverQueue &&
-                  props.serverQueue.map((index, songObj) => (
+                {store.serverQueue &&
+                  store.serverQueue.map((index, song) => (
                     <>
                       <div className="d-flex flex-row">
                         <div
                           className="d-flex field-option w-100"
                           data-bs-toggle="collapse"
-                          data-bs-target={`#collapseItem${songObj.Id}`}
+                          data-bs-target={`#collapseItem${song.Id}`}
                         >
-                          <img src={songObj.song.thumbnail}></img>
-                          {songObj.song.title}
+                          <img src={song.thumbnail}></img>
+                          {song.title}
                         </div>
                       </div>
                       <div className="d-flex flex-row">
                         <div
                           className="collapse w-100"
-                          id={`collapseItem${songObj.song.Id}`}
+                          id={`collapseItem${song.Id}`}
                         >
                           <div className="option-collapse-field">
                             <div className="d-flex flex-row  w-100">
                               <i
                                 className="button remove-button bi bi-trash-fill"
                                 onClick={() => {
-                                  props.websocketManager.sendData(
+                                  store.connectionManager.sendData(
                                     "removeSongFunctionActivated",
                                     {
-                                      serverId: props.currentServer.ServerId,
+                                      serverId: store.currentServer.ServerId,
                                       songIndex: index,
                                     }
                                   );
-                                  updatePlaybackData();
                                 }}
                               ></i>
                               <i className="button copy-button bi bi-files"></i>
@@ -122,17 +97,23 @@ const ServerPlaybackCard = (props) => {
           </div>
         </>
       );
-    } else return <div className = "field"><h4>Playback is not active on this server</h4><p>Еhis message may mean that the audio stream is not currently playing on the selected server. However, if the audio stream is being played, it may indicate an error when sending data!</p></div>;
+    } else
+      return (
+        <>
+          <div className="field">
+            <h4>Playback is not active on this server</h4>
+          </div>
+          <WarningField>
+            This message may mean that the audio stream is not currently playing
+            on the selected server. However, if the audio stream is being
+            played, it may indicate an error when sending data!
+          </WarningField>
+        </>
+      );
   }
   return (
     <>
-      <div
-        className={
-          props.isVisible
-            ? "d-flex dashboard-card align-self-start"
-            : "hide_container"
-        }
-      >
+      <div className={"d-flex dashboard-card align-self-start"}>
         <div className="w-100">
           <div className="d-flex justify-content-between">
             <div className="d-flex">
@@ -142,7 +123,7 @@ const ServerPlaybackCard = (props) => {
               <button
                 className="btn button-bg"
                 type="submit"
-                onClick={() => updatePlaybackData()}
+                
               >
                 <i className="bi bi-arrow-clockwise"></i>
               </button>

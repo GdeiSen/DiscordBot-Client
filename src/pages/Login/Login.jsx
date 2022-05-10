@@ -14,7 +14,7 @@ const Login = () => {
   };
 
   const loginFunc = async () => {
-    let token = { Login: login.Login, Password: login.Password }
+  
     setAuthState(true);
     //else { login.Login = ""; login.Password = "" }
   }

@@ -1,29 +1,18 @@
-import { combineReducers, createStore } from "redux";
-import { currentServerReducer } from "./reducers/serversPageReducers/currentServerReducer";
-import { currentServerPlaybackReducer } from "./reducers/serversPageReducers/currentServerPlaybackReducer";
-import { websocketManagerReducer } from "./reducers/websocketManagerReducer";
-import { composeWithDevTools } from "redux-devtools-extension"
-import { serverListReducer } from "./reducers/serversPageReducers/serverListReducer"
-import { userListReducer} from "./reducers/serversPageReducers/userListReducer"
-import { serverQueueReducer } from "./reducers/serversPageReducers/serverQueueReducer";
-import { tokenManagerReducer } from "./reducers/tokenManagerReducer";
-import { userListVisibleReducer} from "./reducers/serversPageReducers/userListVisibleReduser"
-import { serverListVisibleReduser } from "./reducers/serversPageReducers/serverListVisibleReduser";
-import { playbackVisibleReduser } from "./reducers/serversPageReducers/playbackVisibleReduser";
-import { externalServerStatusReducer } from "./reducers/externalServerStatus";
-import { mainServerStatusReducer } from "./reducers/mainServerStatus";
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import serversSlice from './reducers/serversSlice';
+import serverStatusSlice from './reducers/serverStatusSlice';
+import tokenManagerSlice from './reducers/tokenManagerSlice';
+import connectionManagerSlice from './reducers/connectionManagerSlice';
+
 const rootReducer = combineReducers({
-    currentServer: currentServerReducer,
-    serverList: serverListReducer,
-    currentServerPlayback: currentServerPlaybackReducer, 
-    websocketManager: websocketManagerReducer,
-    userList: userListReducer,
-    serverQueue: serverQueueReducer,
-    tokenManager: tokenManagerReducer,
-    userListVisible: userListVisibleReducer,
-    serverListVisible: serverListVisibleReduser,
-    playbackVisible: playbackVisibleReduser,
-    externalServerStatus: externalServerStatusReducer,
-    mainServerStatus: mainServerStatusReducer,
+    servers: serversSlice,
+    connectionManager: connectionManagerSlice,
+    tokenManager: tokenManagerSlice,
+    serverStatus: serverStatusSlice,
 })
-export const Store = createStore(rootReducer, composeWithDevTools());
+export const Store = configureStore({ 
+    reducer: rootReducer, 
+    devTools: true,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+});
+

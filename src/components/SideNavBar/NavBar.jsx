@@ -1,34 +1,33 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import "./NavBar.scss";
+import { NavLink } from "react-router-dom";
+import "./SideNavBar.scss";
 
 const NavBar = (props) => {
   return (
     <div className="side-nav-container">
-      <div class="column">
-
-        <div class="logo">
-          <h2>
-            BaverIO
-          </h2>
+      <div className="column">
+        <div className="logo">
+          <img src={require("../../images/logo512.png")}/>
+          <div className="title"><h4>Baverio</h4></div>
+          <div className="title">v2.0.8</div>
         </div>
         <hr />
 
 
         <div id="Home" className="side-nav-tab-container">
-          <i className="fs-3 bi-house"></i><Link to="/home" className="text-decoration-none text">Home</Link>
+        <NavLink to="/home" className="text"><i className="fs-3 bi-house"></i><span>Home</span></NavLink>
         </div>
         <div id="DashBoard" className="side-nav-tab-container" data-bs-toggle="collapse" data-bs-target="#dashBoardSubMenu">
-          <i className="fs-3 bi-speedometer2"></i> <span className="text-decoration-none text">DashBoard</span>
+        <div className="text"><i className="fs-3 bi-speedometer2"></i><span>DashBoard</span></div>
         </div>
         <div id="dashBoardSubMenu" className="collapse">
-          <div id="Servers" className="side-nav-undertab-container"><Link to="/servers" className="text-decoration-none dropdown-text" >Server List</Link></div>
+          <div id="Servers" className="side-nav-undertab-container"><NavLink to="/servers" className="text-decoration-none dropdown-text" >Server List</NavLink></div>
           <div id="Options" className="side-nav-undertab-container click-effect dropdown-text">Options</div>
         </div>
 
         <hr />
         <div className="side-nav-tab-container" href="#accountSubMneu" data-bs-toggle="collapse">
-          <i className="fs-3 bi-person"></i> <span className="text">Admin</span>
+          <div className="text"><i className="fs-3 bi-person"></i><span>Admin</span></div>
         </div>
         <div className="collapse" id="accountSubMneu">
           <div className="side-nav-undertab-container click-effect dropdown-text">Account</div>

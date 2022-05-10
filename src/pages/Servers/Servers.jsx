@@ -1,86 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
-import UserListCard from "../../components/UserListCard/UserlistTab"
-import ServerListCard from "../../components/ServerListCard/ServerlistTab"
-import ServerPlaybackCard from "../../components/PlaybackCard/PlaybackTab"
+import React, { useEffect } from "react";
+import ServerListCard from "../../components/ServerListCard/ServerlistTab";
 import { useDispatch, useSelector } from "react-redux";
-
+import TextCard from "../../components/TextCard/TextCard";
+import SmallSlice from "../../components/SmallSlice/SmallSlice";
 
 const Servers = () => {
   const dispatch = useDispatch();
-  const store = useSelector(state => state);
-  let getDataCycle;
-  function sendData(dataName, data) {
-    store.websocketManager.sendData(dataName, data)
-  }
-
-  function getData(requestName, data) {
-    store.websocketManager.getData(requestName, data)
-  }
-
-  function execute() {
-    if (store.websocketManager == null) { return 0 };
-  }
+  const store = useSelector((state) => state);
 
   useEffect(() => {
-    execute();
-    clearInterval(getDataCycle);
-  }, [store.websocketManager])
-
-  function getServerInfo(server) {
-    getData(`serverUsers/${server.ServerId}`);
-    getData(`currentPlayback/${server.ServerId}`);
-    getData(`serverQueue/${server.ServerId}`);
-    dispatch({ type: "SET_CURRENT_SERVER", payload: server });
-  }
-
-  function showServerInfo(server) {
-    getServerInfo(server);
-    dispatch({ type: "SET_CURRENT_SERVER", payload: server });
-    dispatch({ type: "SET_SERVER_LIST_VISIBLE", payload: false });
-    dispatch({ type: "SET_USER_LIST_VISIBLE", payload: true });
-    dispatch({ type: "SET_PLAYBACK_VISIBLE", payload: true });
-  }
-
-  function hideServerInfo() {
-    dispatch({ type: "SET_CURRENT_SERVER", payload: null });
-    dispatch({ type: "SET_SERVER_LIST_VISIBLE", payload: true });
-    dispatch({ type: "SET_USER_LIST_VISIBLE", payload: false });
-    dispatch({ type: "SET_USER_LIST", payload: null });
-    dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: null });
-    dispatch({ type: "SET_PLAYBACK_VISIBLE", payload: false });
-    clearInterval(getDataCycle);
-  }
+    if(!store.connectionManager.manager) return 0;
+    store.connectionManager.manager.getData('serverList')
+  }, [store.connectionManager.manager]);
 
   return (
     <>
-      <div className="container-fluid margin-top">
+      <SmallSlice><h2>ServerList Page</h2></SmallSlice>
+      <div className="content-container">
         <div className="d-flex flex-wrap justify-content-between">
-          <UserListCard
-            hideInfo={hideServerInfo}
-            currentServer={store.currentServer}
-            websocketManager={store.websocketManager}
-            isVisible={store.userListVisible}>
-            {store.userList}
-          </UserListCard>
-          <ServerPlaybackCard
-            getData={getData}
-            sendData={sendData}
-            hideInfo={hideServerInfo}
-            serverQueue={store.serverQueue}
-            currentServer={store.currentServer}
-            websocketManager={store.websocketManager}
-            isVisible={store.playbackVisible}>
-            {store.currentServerPlayback}
-          </ServerPlaybackCard>
-          <ServerListCard
-            showInfo={showServerInfo}
-            isVisible={store.serverListVisible}>
-            {store.serverList}
-          </ServerListCard>
+          <ServerListCard>{store.servers.list}</ServerListCard>
+          <TextCard>
+            <h2>Some Information Here</h2>
+            <p>
+              this page displays a table with the names of the servers on which
+              this bot performs administration and entertainment work. A certain
+              module sends a request to an array of servers when the client side
+              connects to an intermediate server and receives the current state
+              of the list
+            </p>
+          </TextCard>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Servers;

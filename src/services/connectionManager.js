@@ -1,29 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPlayback, setCurrentQueue, setCurrentUsers, setServerList, setUserList } from "../store/reducers/serversSlice";
+import { setSocketStatus } from "../store/reducers/serverStatusSlice";
 const { io } = require("socket.io-client");
 const EventEmitter = require('events');
 const axios = require('axios').default;
-const MessageEmmiter = new EventEmitter;
-
+const MessageEmitter = new EventEmitter;
 export default class ConnectionManager extends EventEmitter {
-
   constructor() {
     super();
-    this.token = 'test';
+    MessageEmitter.removeAllListeners('message');
+    MessageEmitter.on('message', (message) => { this.dataResolver(message) })
     this.dispatch = useDispatch();
-    MessageEmmiter.on('message', (message) => { this.dataResolver(message) })
+    this.store = useSelector(state => state);
   }
 
   connect() {
     this.socket = io("http://localhost:5000", { reconnectionDelayMax: 10000 });
     this.socket.on('connect', () => {
-      this.status = 'connected';
-      this.getData('servers')
-      this.dispatch({ type: "SET_EXTERNAL_SERVER_STATUS", payload: 'connected' });
+      this.getData('test', {}, 'socket')
+      this.dispatch(setSocketStatus('connected'))
     })
 
     this.socket.on('disconnect', () => {
-      this.dispatch({ type: "SET_EXTERNAL_SERVER_STATUS", payload: 'disconnected' });
-      this.dispatch({ type: "SET_MAIN_SERVER_STATUS", payload: 'disconnected' });
       this.emit('CLOSED');
     })
 
@@ -35,48 +33,32 @@ export default class ConnectionManager extends EventEmitter {
 
   dataResolver(message) {
     try {
-      switch (message.data.contentType) {
-        case "servers": this.dispatch({ type: "SET_SERVER_LIST", payload: message.data.content }); break;
-        case "serverUsers": this.dispatch({ type: "SET_USER_LIST", payload: message.data.content }); break;
-        case "currentPlayback": this.dispatch({ type: "SET_CURRENT_SERVER_PLAYBACK", payload: message.data.content }); break;
-        case "serverQueue": this.dispatch({ type: "SET_SERVER_QUEUE", payload: message.data.content }); break;
+      switch (message.data.responce.contentType) {
+        case "serverList": {this.dispatch(setServerList(message.data.responce.content)); break;}
+        case "userList": this.dispatch(setCurrentUsers(message.data.responce.content)); break;
+        case "currentPlayback": this.dispatch(setCurrentPlayback(message.data.responce.content)); break;
+        case "serverQueue": this.dispatch(setCurrentQueue(message.data.responce.content)); break;
         case "error": this.errorAnalys(message); break;
         case "test": this.testAnalys(message); break;
         default: break
       }
-      MessageEmmiter.emit('message', message.type, message.data);
-    } catch { }
-  }
-
-  async errorAnalys(message) {
-    if (!message.type == 'error') return 0;
-    if (message.data == 'Main Server Connection Error') this.dispatch({ type: "SET_MAIN_SERVER_STATUS", payload: 'disconnected' });
-    if (message.data == 'Main Server Connection Lost') this.dispatch({ type: "SET_MAIN_SERVER_STATUS", payload: 'disconnected' });
+    } catch(error) {console.log(error)}
   }
 
   async testAnalys(message) {
-    if (!message.type == 'test') return 0;
-    if (message.data == "Test Completed") this.dispatch({ type: "SET_MAIN_SERVER_STATUS", payload: 'connected' });
+    if (message.data.status === "200") { }
   }
 
 
   getData(path, args, options) {
-    if ((path && args) || options == 'socket') {
-      this.getData_SOCKET(path, args);
-    }
-    else if ((path && !args) || options == 'http') {
-      this.getData_HTTP(path)
-    }
+    if ((path && args) || options === 'socket') {this.getData_SOCKET(path, args);}
+    else if ((path && !args) || options === 'http') {this.getData_HTTP(path)}
   }
 
   sendData(path, data, options) {
-    if (options == 'socket') {
-      this.sendData_SOCKET(path, data);
-    }
-    else if (options == 'http') {
-      this.sendData_HTTP(path, data)
-    }
-    else {this.sendData_SOCKET(path, data)}
+    if (options === 'socket') {this.sendData_SOCKET(path, data);}
+    else if (options === 'http') {this.sendData_HTTP(path, data)}
+    else { this.sendData_SOCKET(path, data) }
   }
 
   async getData_SOCKET(path, args) {
@@ -105,9 +87,9 @@ export default class ConnectionManager extends EventEmitter {
 
   async getData_HTTP(path) {
     axios.get(`http://localhost:5000/${path}`, {})
-      .then(function (response) {
-        MessageEmmiter.emit('message', response)
-        console.log(response);
+      .then(function (responce) {
+        MessageEmitter.emit('message', responce)
+        console.log(responce);
       })
       .catch(function (error) {
         console.log(error);
@@ -116,8 +98,8 @@ export default class ConnectionManager extends EventEmitter {
 
   async sendData_HTTP(path, data) {
     axios.post(`http://localhost:5000/${path}`, { data })
-      .then(function (response) {
-        MessageEmmiter.emit('message', response)
+      .then(function (responce) {
+        MessageEmitter.emit('message', responce)
       })
       .catch(function (error) {
         console.log(error);
