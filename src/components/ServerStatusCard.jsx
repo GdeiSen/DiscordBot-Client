@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import "../main.scss"
 const ServerStatusCard = () => {
 
     const store = useSelector(state => state);

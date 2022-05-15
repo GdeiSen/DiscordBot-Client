@@ -1,13 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./SideNavBar.scss";
 
 const NavBar = (props) => {
   return (
     <div className="side-nav-container">
       <div className="column">
         <div className="logo">
-          <img src={require("../../images/logo512.png")}/>
+          <img src={require("../images/logo512.png")}/>
           <div className="title"><h4>Baverio</h4></div>
           <div className="title">v2.0.8</div>
         </div>

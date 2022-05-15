@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./ServerList.scss";
-import "../main.scss";
 const ServerListCard = () => {
   const [showErrorState, setShowErrorState] = useState(false);
   const [showSpinnerState, setShowSpinnerState] = useState(true);
@@ -78,8 +76,8 @@ const ServerListCard = () => {
                       <h5>{server.name}</h5>
                     </Link>
                   </td>
-                  <td key={uuidv4()}>{server.id}</td>
-                  <td key={uuidv4()}>{server.memberCount}</td>
+                  <td key={uuidv4()}><p>{server.id}</p></td>
+                  <td key={uuidv4()}><p>{server.memberCount}</p></td>
                 </tr>
               ))}
             </tbody>

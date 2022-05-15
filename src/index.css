@@ -11,28 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.hide_container {
-  opacity: 0;
-  display: none;
-}
-.pointer {
-  cursor: pointer;
-}
-.notification-container {
-  z-index: 6;
-  width: 50%;
-  height: 100%;
-  position: absolute;
-  right: 0;
-
-}
-.margin-top {
-  margin-top: 2rem;
-}
-.margin-bottom {
-  margin-bottom: 2rem;
-}
-.option-collapse-field {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}

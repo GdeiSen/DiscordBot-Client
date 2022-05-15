@@ -33,11 +33,11 @@ export default class ConnectionManager extends EventEmitter {
 
   dataResolver(message) {
     try {
-      switch (message.data.responce.contentType) {
-        case "serverList": {this.dispatch(setServerList(message.data.responce.content)); break;}
-        case "userList": this.dispatch(setCurrentUsers(message.data.responce.content)); break;
-        case "currentPlayback": this.dispatch(setCurrentPlayback(message.data.responce.content)); break;
-        case "serverQueue": this.dispatch(setCurrentQueue(message.data.responce.content)); break;
+      switch (message.data.contentType) {
+        case "serverList": {this.dispatch(setServerList(message.data.content)); break;}
+        case "userList": this.dispatch(setCurrentUsers(message.data.content)); break;
+        case "currentPlayback": this.dispatch(setCurrentPlayback(message.data.content)); break;
+        case "serverQueue": this.dispatch(setCurrentQueue(message.data.content)); break;
         case "error": this.errorAnalys(message); break;
         case "test": this.testAnalys(message); break;
         default: break

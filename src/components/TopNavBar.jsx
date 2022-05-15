@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./TopNavBar.scss";
 
 const NavBar = (props) => {
   return (

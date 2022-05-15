@@ -5,7 +5,7 @@ import AppRoutes from "./components/AppRoutes"
 import ConnectionManager from "./services/connectionManager"
 import { useDispatch } from "react-redux"
 import { setConnectionManager } from "./store/reducers/connectionManagerSlice"
-
+import "./index.scss"
 const App = () => {
   const dispatch = useDispatch();
   const connectionManager = new ConnectionManager();

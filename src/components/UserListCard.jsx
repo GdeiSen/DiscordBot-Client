@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import WarningField from "../WarningField/WarningField";
-import "../main.scss";
-import "./UserList.scss";
+import WarningField from "./WarningField";
 const UserListCard = () => {
   const store = useSelector((state) => state);
   const [showErrorState, setShowErrorState] = useState(false);
@@ -53,8 +51,8 @@ const UserListCard = () => {
             <tbody>
               {store.servers.currentServer.users.map((user) => (
                 <tr key={uuidv4()} className = "wrap">
-                  <td key={uuidv4()}>{user.displayAvatarURL}</td>
-                  <td key={uuidv4()}>{user.displayName}</td>
+                  <td key={uuidv4()}><img src={user.displayAvatarURL} className = "user-avatar-image"></img></td>
+                  <td key={uuidv4()}><h6>{user.displayName}</h6></td>
                   <td key={uuidv4()}>{user.userId}</td>
                 </tr>
               ))}

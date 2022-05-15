@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Servers from "../pages/Servers/Servers";
 import Server from "../pages/Server/Server";
-import { Layout } from "../components/Layout/Layout"
+import { Layout } from "../components/Layout"
 const AppRoutes = () => {
   return (
     <>

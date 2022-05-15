@@ -1,5 +1,4 @@
 import React from "react";
-import "./SliceCard.scss"
 const SliceCard = (props) => {
     return (
         <div className="slice-card">
