@@ -1,8 +1,8 @@
 import React from "react";
-import ServerStatusCard from "../../components/ServerStatusCard";
-import SliceCard from "../../components/SliceCard";
-import Slice from "../../components/Slice";
-import TextCard from "../../components/TextCard";
+import ServerStatusCard from "../components/ServerStatusCard";
+import SliceCard from "../components/SliceCard";
+import Slice from "../components/Slice";
+import TextCard from "../components/TextCard";
 
 const Home = () => {
   const showGreeting = () => {

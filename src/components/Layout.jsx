@@ -1,19 +1,21 @@
 import SideNavBar from "./NavBar";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import Login from "../pages/Login";
+import LoadingScreen from "./LoadingScreen";
 import TopNavBar from "./TopNavBar";
-import React, { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
 const Layout = () => {
-  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  window.addEventListener("resize", () => {
-    setInnerWidth(window.innerWidth);
-  });
-  if (innerWidth >= 1080) return mdLayout();
-  else return smLayout();
+  const store = useSelector((state) => state);
+  if (store?.user?.isLoading == true) return loading();
+  else if (store?.user?.isAuth === true) return mainLayout();
+  else return loginLayout();
 };
 
-function mdLayout() {
+function mainLayout() {
   return (
     <div className="layout-container">
+      <TopNavBar />
       <div className="layout-container-row h-100">
         <div className="side-nav-bar-column">
           <SideNavBar />
@@ -26,12 +28,20 @@ function mdLayout() {
   );
 }
 
-function smLayout() {
+function loginLayout() {
   return (
     <>
       <div>
-        <Outlet />
+        <Login></Login>
       </div>
+    </>
+  );
+}
+
+function loading() {
+  return (
+    <>
+      <LoadingScreen></LoadingScreen>
     </>
   );
 }

@@ -1,5 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import ServerService from "../services/serverService";
 import WarningField from "./WarningField";
 const ServerPlaybackCard = () => {
   const store = useSelector((state) => state);
@@ -22,7 +24,7 @@ const ServerPlaybackCard = () => {
                 <i
                   className="bi bi-pause-circle-fill player-button-center"
                   onClick={() => {
-                    store.connectionManager.manager.sendData(
+                    store.connectionManagers.socketManager.send(
                       "togglePauseSongFunction",
                       { serverId: store.servers.currentServer.server.id }
                     );
@@ -33,11 +35,13 @@ const ServerPlaybackCard = () => {
                 <i
                   className="bi bi-skip-forward-fill player-button-side"
                   onClick={() => {
-                    store.connectionManager.manager.sendData(
+                    store.connectionManagers.socketManager.send(
                       "skipSongFunction",
-                      {
-                        serverId: store.servers.currentServer.server.id,
-                      }
+                      { serverId: store.servers.currentServer.server.id }
+                    );
+                    store.connectionManagers.serverService.getPlayback(
+                      store.servers.currentServer.server.id,
+                      1000
                     );
                   }}
                 ></i>
@@ -50,43 +54,54 @@ const ServerPlaybackCard = () => {
             </div>
             <div className="queue-container">
               {store?.servers?.currentServer?.queue &&
-                store?.servers?.currentServer?.queue.map((song) => (
-                  <>
-                    <div
-                      className="song-row"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#collapseItem${song.id}`}
-                    >
-                      <img src={song.thumbnail.url} className="song-img"></img>
-                      <div className="song-info">
-                        <div className="song-name">
-                          <p>{song.title}</p>
-                        </div>
-                        <div className="song-channel">{song.channel.name}</div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="collapse" id={`collapseItem${song.id}`}>
-                        <div className="collapse-row">
-                          <i
-                            className="button remove-button bi bi-trash-fill"
-                            onClick={() => {
-                              store.connectionManager.manager.sendData(
-                                "removeSongFunctionActivated",
-                                {
-                                  serverId:
-                                    store.servers.currentServer.server.id,
-                                  songIndex: 1,
-                                }
-                              );
-                            }}
-                          ></i>
-                          <i className="button copy-button bi bi-files"></i>
+                store?.servers?.currentServer?.queue.map((song, index) => {
+                  return (
+                    <>
+                      <div
+                        className="song-row"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#collapseItem${song.id}`}
+                      >
+                        <img
+                          src={song.thumbnail.url}
+                          className="song-img"
+                        ></img>
+                        <div className="song-info">
+                          <div className="song-name">
+                            <p>{song.title}</p>
+                          </div>
+                          <div className="song-channel">
+                            {song.channel.name}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                ))}
+                      <div>
+                        <div className="collapse" id={`collapseItem${song.id}`}>
+                          <div className="collapse-row">
+                            <i
+                              className="button remove-button bi bi-trash-fill"
+                              onClick={() => {
+                                store.connectionManagers.socketManager.send(
+                                  "removeSongFunction",
+                                  {
+                                    serverId:
+                                      store.servers.currentServer.server.id,
+                                    songIndex: index,
+                                  }
+                                );
+                                store.connectionManagers.serverService.getPlayback(
+                                  store.servers.currentServer.server.id,
+                                  1000
+                                );
+                              }}
+                            ></i>
+                            <i className="button copy-button bi bi-files"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
             </div>
           </div>
         </div>

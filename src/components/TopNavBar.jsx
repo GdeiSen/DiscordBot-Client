@@ -1,41 +1,68 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import AuthService from "../services/authService";
 
 const NavBar = (props) => {
+  const store = useSelector((state) => state);
+  const authService = new AuthService();
   return (
-    <div className="side-nav-container">
-      <div class="row">
-
-        <div class="logo">
-          <h2>
-            BaverIO
-          </h2>
-        </div>
-        <hr />
-
-
-        <div id="Home" className="side-nav-tab-container">
-          <i className="fs-3 bi-house"></i><Link to="/home" className="text-decoration-none text">Home</Link>
-        </div>
-        <div id="DashBoard" className="side-nav-tab-container" data-bs-toggle="collapse" data-bs-target="#dashBoardSubMenu">
-          <i className="fs-3 bi-speedometer2"></i> <span className="text-decoration-none text">DashBoard</span>
-        </div>
-        <div id="dashBoardSubMenu" className="collapse">
-          <div id="Servers" className="side-nav-undertab-container"><Link to="/servers" className="text-decoration-none dropdown-text" >Server List</Link></div>
-          <div id="Options" className="side-nav-undertab-container click-effect dropdown-text">Options</div>
+    <div className="top-nav-container">
+      <div className="top-row">
+        <div className="logo">
+          <img src={require("../images/logo512.png")} />
+          <div className="title">
+            <h4>Baverio</h4>
+          </div>
         </div>
 
-        <hr />
-        <div className="side-nav-tab-container" href="#accountSubMneu" data-bs-toggle="collapse">
-          <i className="fs-3 bi-person"></i> <span className="text">Admin</span>
+        <div id="Home" className="top-nav-tab-container">
+          <NavLink to="/home" className="text">
+            <i className="fs-3 bi-house"></i>
+            <span>Home</span>
+          </NavLink>
         </div>
-        <div className="collapse" id="accountSubMneu">
-          <div className="side-nav-undertab-container click-effect dropdown-text">Account</div>
-          <div className="side-nav-undertab-container click-effect dropdown-text">Log Out</div>
+        <div
+          id="DashBoard"
+          className="top-nav-tab-container"
+          data-bs-toggle="collapse"
+          data-bs-target="#dashBoardSubMenu"
+        >
+          <div className="text">
+            <i className="fs-3 bi-speedometer2"></i>
+            <span>DashBoard</span>
+          </div>
         </div>
-
+        <div
+          className="top-nav-tab-container"
+          href="#accountSubMneu"
+          data-bs-toggle="collapse"
+        >
+          <div className="text">
+            <i className="fs-3 bi-person"></i>
+            <span>{store?.user?.nikName}</span>
+          </div>
+        </div>
       </div>
+      <div className="top-row">
+
+        <div id="dashBoardSubMenu" className="collapse">
+          <div className="collapse-row">
+            <div id="Servers" className="top-nav-undertab-container click-effect dropdown-text" > <NavLink to="/servers" className="text-decoration-none dropdown-text" > Server List </NavLink> </div>
+            <div id="Options" className="top-nav-undertab-container click-effect dropdown-text" > Options </div>
+          </div>
+        </div>
+
+        <div id="accountSubMneu" className="collapse">
+          <div className="collapse-row">
+            <div  id="Servers" className="top-nav-undertab-container click-effect dropdown-text"> Account </div>
+            <div id="Options" className="top-nav-undertab-container click-effect dropdown-text" onClick={() => { authService.logout(); }}> Log Out</div>
+          </div>
+        </div>
+      </div>
+
+      
     </div>
-  )
+  );
 };
 export default NavBar;

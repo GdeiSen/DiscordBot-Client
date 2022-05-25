@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
-import ServerListCard from "../../components/ServerlistCard";
-import { useDispatch, useSelector } from "react-redux";
-import TextCard from "../../components/TextCard";
-import SmallSlice from "../../components/SmallSlice";
-import MediumSlice from "../../components/MediumSlice";
+import ServerListCard from "../components/ServerlistCard";
+import { useSelector } from "react-redux";
+import TextCard from "../components/TextCard";
+import SmallSlice from "../components/SmallSlice";
+import ServerService from "../services/serverService";
 
 const Servers = () => {
-  const dispatch = useDispatch();
   const store = useSelector((state) => state);
-
+  const serverService = new ServerService();
   useEffect(() => {
-    if (!store.connectionManager.manager) return 0;
-    store.connectionManager.manager.getData("serverList");
-  }, [store.connectionManager.manager]);
+    serverService.getServerList();
+  }, []);
 
   return (
     <>

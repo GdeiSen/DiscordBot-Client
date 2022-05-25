@@ -1,7 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import AuthService from "../services/authService";
 
 const NavBar = (props) => {
+  const store = useSelector(state=> state);
+  const authService = new AuthService()
   return (
     <div className="side-nav-container">
       <div className="column">
@@ -26,11 +30,11 @@ const NavBar = (props) => {
 
         <hr />
         <div className="side-nav-tab-container" href="#accountSubMneu" data-bs-toggle="collapse">
-          <div className="text"><i className="fs-3 bi-person"></i><span>Admin</span></div>
+          <div className="text"><i className="fs-3 bi-person"></i><span>{store?.user?.nikName}</span></div>
         </div>
         <div className="collapse" id="accountSubMneu">
           <div className="side-nav-undertab-container click-effect dropdown-text">Account</div>
-          <div className="side-nav-undertab-container click-effect dropdown-text">Log Out</div>
+          <div className="side-nav-undertab-container click-effect dropdown-text" onClick = {()=>{authService.logout()}}>Log Out</div>
         </div>
 
       </div>

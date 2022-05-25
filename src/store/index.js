@@ -1,18 +1,20 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import connectionManager from './reducers/connectionManager';
+import refreshSlice from './reducers/refreshSlice';
 import serversSlice from './reducers/serversSlice';
 import serverStatusSlice from './reducers/serverStatusSlice';
-import tokenManagerSlice from './reducers/tokenManagerSlice';
-import connectionManagerSlice from './reducers/connectionManagerSlice';
+import userSlice from './reducers/userSlice';
 
 const rootReducer = combineReducers({
     servers: serversSlice,
-    connectionManager: connectionManagerSlice,
-    tokenManager: tokenManagerSlice,
+    connectionManagers: connectionManager,
     serverStatus: serverStatusSlice,
+    user: userSlice,
+    refresh: refreshSlice,
 })
-export const Store = configureStore({ 
-    reducer: rootReducer, 
+export const Store = configureStore({
+    reducer: rootReducer,
     devTools: true,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 });
 
