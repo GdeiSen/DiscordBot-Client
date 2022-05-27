@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { Store } from "../store";
+import { setIsAuth } from "../store/reducers/userSlice";
 export const API_URL = `http://localhost:5000`
-
 const api = axios.create({
     withCredentials: true,
     baseURL: API_URL
@@ -11,8 +13,8 @@ api.interceptors.request.use((config) => {
     return config;
 })
 
-api.interceptors.response.use((config) => {
-    return config;
+api.interceptors.response.use((responce) => {
+    return responce;
 },async (error) => {
     const originalRequest = error.config;
     if (error?.response?.status == 401 && error?.config && !error?.config?._isRetry) {
@@ -25,7 +27,9 @@ api.interceptors.response.use((config) => {
             console.log(e)
         }
     }
+    else {Store.dispatch(setIsAuth(false))}
     throw error;
 })
+
 
 export default api;

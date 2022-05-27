@@ -43,19 +43,20 @@ const Home = () => {
               <h5>
                 <i class="fs-1 bi-disc-fill"></i> Total Playbacks:
               </h5>
-              <h2>235.5</h2>
+              <h2>1275
+              </h2>
             </SliceCard>
             <SliceCard>
               <h5>
                 <i class="fs-1 bi-bug-fill"></i> Total Errors:
               </h5>
-              <h2>56</h2>
+              <h2>2</h2>
             </SliceCard>
             <SliceCard>
               <h5>
                 <i class="fs-1 bi-clock-fill"></i> Total LifeTime:
               </h5>
-              <h2>5 days</h2>
+              <h2>1 day</h2>
             </SliceCard>
           </div>
         </Slice>

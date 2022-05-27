@@ -89,7 +89,7 @@ $field-hover-color: rgb(189, 189, 189);
     display: flex;
     width: 10rem;
     flex-direction: column;
-    .player-container-title{
+    .player-container-title {
       width: 100%;
       display: flex;
       justify-content: center;
@@ -252,7 +252,7 @@ $field-hover-color: rgb(189, 189, 189);
   width: 100% !important;
   min-width: 200px !important;
   background-color: rgb(40, 41, 48);
-  height: 100%;
+  height: 150%;
   border-bottom-right-radius: 1rem;
   .column {
     color: white;
@@ -327,7 +327,6 @@ $field-hover-color: rgb(189, 189, 189);
   }
 }
 
-
 .top-nav-container {
   box-shadow: 0 0 10px rgba(82, 82, 82, 0.658);
   width: 100% !important;
@@ -338,10 +337,10 @@ $field-hover-color: rgb(189, 189, 189);
     color: white;
     display: flex;
     justify-content: center;
-    .collapse-row{
+    align-items: center;
+    .collapse-row {
       display: inline-flex;
       justify-content: space-around;
-      padding-bottom: 1rem;
     }
     .top-nav-tab-container {
       user-select: none;
@@ -373,12 +372,12 @@ $field-hover-color: rgb(189, 189, 189);
         span {
           display: none;
         }
-        .text{
+        .text {
           padding: 10px !important;
         }
       }
     }
-    .top-nav-undertab-container{
+    .top-nav-undertab-container {
       justify-content: center;
       align-items: center;
     }
@@ -387,6 +386,7 @@ $field-hover-color: rgb(189, 189, 189);
       cursor: pointer;
       padding: 0.2rem;
       font-size: 1rem;
+      margin: 0.3rem;
       color: rgba(255, 255, 255, 0.842);
       text-decoration: none;
     }
@@ -421,6 +421,9 @@ $field-hover-color: rgb(189, 189, 189);
       height: 0.1rem;
     }
   }
+  .row-darker {
+    background-color: rgb(32, 32, 32);
+  }
 }
 @media (max-width: 1080px) {
   .side-nav-bar-column {
@@ -433,6 +436,20 @@ $field-hover-color: rgb(189, 189, 189);
 @media (min-width: 1080px) {
   .top-nav-container {
     display: none;
+  }
+}
+.not-found-screen{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  .info-container{
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    height: 200px;
   }
 }
 .loading-screen {
@@ -480,8 +497,15 @@ $field-hover-color: rgb(189, 189, 189);
       height: 20vw;
       max-width: 200px;
       max-height: 200px;
+      margin-bottom: 150px;
     }
-    @media (max-width: 800px) {
+    @media screen and (max-width: 800px), screen and (max-height: 1000px) {
+      .logo {
+        min-width: 150px;
+        min-height: 150px;
+      }
+    }
+    @media (max-height: 800px) {
       .logo {
         display: none;
       }
@@ -495,6 +519,7 @@ $field-hover-color: rgb(189, 189, 189);
     justify-content: center;
     align-items: center;
     .info-container {
+      margin-top: 150px;
       width: 60%;
       height: auto;
       display: flex;
@@ -506,7 +531,7 @@ $field-hover-color: rgb(189, 189, 189);
           color: rgb(170, 170, 170);
         }
       }
-      @media (max-width: 800px) {
+      @media screen and (max-width: 800px), screen and (max-height: 1000px) {
         .row {
           display: none;
         }
@@ -520,6 +545,21 @@ $field-hover-color: rgb(189, 189, 189);
     height: 100vh;
     width: 100vw;
     position: absolute;
+    .error-container {
+      width: 100%;
+      margin-top: 1rem;
+      border-radius: 10px;
+      height: 3rem;
+      display: flex;
+      border: 2px rgba(255, 0, 0, 0.37) solid;
+      background-color: rgba(255, 0, 0, 0.055);
+      align-items: center;
+      justify-content: center;
+      p {
+        display: flex;
+        height: 8px;
+      }
+    }
     .form {
       padding: 2rem;
       width: 60%;

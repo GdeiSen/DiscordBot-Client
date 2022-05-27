@@ -39,10 +39,6 @@ const ServerPlaybackCard = () => {
                       "skipSongFunction",
                       { serverId: store.servers.currentServer.server.id }
                     );
-                    store.connectionManagers.serverService.getPlayback(
-                      store.servers.currentServer.server.id,
-                      1000
-                    );
                   }}
                 ></i>
               </div>
@@ -89,10 +85,6 @@ const ServerPlaybackCard = () => {
                                     songIndex: index,
                                   }
                                 );
-                                store.connectionManagers.serverService.getPlayback(
-                                  store.servers.currentServer.server.id,
-                                  1000
-                                );
                               }}
                             ></i>
                             <i className="button copy-button bi bi-files"></i>
@@ -111,14 +103,15 @@ const ServerPlaybackCard = () => {
     return (
       <>
         <div className="dashboard-card">
-          <div className="field">
-            <h4>Playback is not active on this server</h4>
-          </div>
+          <h2>Current Playback</h2>
           <WarningField>
             This message may mean that the audio stream is not currently playing
             on the selected server. However, if the audio stream is being
             played, it may indicate an error when sending data!
           </WarningField>
+          <div className="field">
+            <h4>Playback is not active on this server</h4>
+          </div>
         </div>
       </>
     );

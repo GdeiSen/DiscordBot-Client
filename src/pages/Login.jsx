@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
+import { useSelector } from "react-redux";
 import AuthService from "../services/authService";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const store = useSelector((state) => state);
   const authService = new AuthService();
   return (
     <>
@@ -16,7 +18,10 @@ const Login = () => {
               <p>Baverio Dashboard login system 2022</p>
             </div>
             <div className="row">
-              <p>If you have any questions about the health of the system, please email us</p>
+              <p>
+                If you have any questions about the health of the system, please
+                email us
+              </p>
             </div>
             <div className="row">
               <p>BaverioHelp@gmail.com</p>
@@ -72,6 +77,12 @@ const Login = () => {
               onClick={() => authService.registration(email, password)}
               value="Register"
             ></input>
+            {store.errors?.authError &&
+              store.errors?.authError !== "Error: No Refresh Token!" && (
+                <div className="error-container">
+                  <p>{store.errors?.authError}</p>
+                </div>
+              )}
           </form>
         </div>
       </div>

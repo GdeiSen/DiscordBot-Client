@@ -44,7 +44,7 @@ const NavBar = (props) => {
           </div>
         </div>
       </div>
-      <div className="top-row">
+      <div className="top-row row-darker">
 
         <div id="dashBoardSubMenu" className="collapse">
           <div className="collapse-row">

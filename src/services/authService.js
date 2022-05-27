@@ -1,8 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import api from "../http";
 import { setIsAuth, setIsLoading, setUser } from "../store/reducers/userSlice";
 import { API_URL } from "../http";
 import axios from "axios";
+import { setAuthError } from "../store/reducers/errorSlice";
+import { Navigate } from "react-router";
 export default class AuthService {
 
     constructor() {
@@ -17,6 +19,7 @@ export default class AuthService {
             this.dispatch(setIsAuth(true));
             this.dispatch(setUser(responce.data.user))
         } catch (e) {
+            this.dispatch(setAuthError(e.response?.data?.message))
             console.log(e.response?.data?.message);
         }
     }
@@ -29,6 +32,7 @@ export default class AuthService {
             this.dispatch(setIsAuth(true));
             this.dispatch(setUser(responce.data.user))
         } catch (e) {
+            this.dispatch(setAuthError(e.response?.data?.message))
             console.log(e.response?.data?.message);
         }
     }
@@ -40,6 +44,7 @@ export default class AuthService {
             this.dispatch(setIsAuth(false));
             this.dispatch(setUser(null))
         } catch (e) {
+            this.dispatch(setAuthError(e.response?.data?.message));
             console.log(e.response?.data?.message);
         }
     }
@@ -53,6 +58,7 @@ export default class AuthService {
             this.dispatch(setIsAuth(true));
             this.dispatch(setUser(response.data.user));
         } catch (e) {
+            this.dispatch(setAuthError(e.response?.data?.message))
             console.log(e.response?.data?.message);
         } finally {
 
