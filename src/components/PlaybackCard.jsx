@@ -47,6 +47,7 @@ const ServerPlaybackCard = () => {
           <div className="playback-info-container">
             <div className="song-info-container">
               <h5>{store?.servers?.currentServer?.playback?.title}</h5>
+              <h6 className="channel-name">{store?.servers?.currentServer?.playback?.channel.name}</h6>
             </div>
             <div className="queue-container">
               {store?.servers?.currentServer?.queue &&
@@ -58,6 +59,7 @@ const ServerPlaybackCard = () => {
                         data-bs-toggle="collapse"
                         data-bs-target={`#collapseItem${song.id}`}
                       >
+                        <div className="song-index">{index}</div>
                         <img
                           src={song.thumbnail.url}
                           className="song-img"
@@ -103,7 +105,10 @@ const ServerPlaybackCard = () => {
     return (
       <>
         <div className="dashboard-card">
-          <h2>Current Playback</h2>
+          <div className="header">
+            <div className="icon"><i class="fs-1 bi-boombox-fill"></i></div>
+            <div className="name"><h2>Current Playback</h2></div>
+          </div>
           <WarningField>
             This message may mean that the audio stream is not currently playing
             on the selected server. However, if the audio stream is being

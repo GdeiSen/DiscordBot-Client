@@ -13,38 +13,39 @@ const ServerStatusCard = () => {
     <div className="d-flex dashboard-card">
       <div className="w-100">
         <div className="flex-column">
-          <div className="d-flex ">
-            <h2>API Status</h2>
+          <div className="header margin-bottom">
+            <div className = "icon"><i class="fs-1 bi-broadcast-pin"></i></div>
+            <div className="name"><h2>API Status</h2></div>
           </div>
-          <div className="d-flex justify-content-between align-items-center field">
+          <div className="d-flex justify-content-between align-items-center field top-border">
             <div>
               <h5>App Server Status:</h5>
               {store.serverStatus.appStatus}
             </div>
             {showStatusIndicator(store.serverStatus.appStatus)}
           </div>
-          <div className="d-flex justify-content-between align-items-center field">
+          <div className="d-flex justify-content-between align-items-center field top-border">
             <div>
               <h5>Database Micro Service Status:</h5>
               {store.serverStatus.dataStatus}
             </div>
             {showStatusIndicator(store.serverStatus.dataStatus)}
           </div>
-          <div className="d-flex justify-content-between align-items-center field">
+          <div className="d-flex justify-content-between align-items-center field top-border">
             <div>
               <h5>Token Micro Service Status:</h5>
               {store.serverStatus.tokenStatus}
             </div>
             {showStatusIndicator(store.serverStatus.tokenStatus)}
           </div>
-          <div className="d-flex justify-content-between align-items-center field">
+          <div className="d-flex justify-content-between align-items-center field top-border">
             <div>
               <h5>Main Server Status:</h5>
               {store.serverStatus.serverStatus}
             </div>
             {showStatusIndicator(store.serverStatus.serverStatus)}
           </div>
-          <div className="d-flex justify-content-between align-items-center field">
+          <div className="d-flex justify-content-between align-items-center field top-border">
             <div>
               <h5>Socket Status:</h5>
               {store.serverStatus.socketStatus}

@@ -3,7 +3,7 @@ const serverStatusSlice = createSlice({
     name: "serverStatus",
     initialState: {
         socketStatus: 'disconnected',
-        dataStatus: 'untested',
+        dataStatus: 'disconnected',
         tokenStatus: 'disconnected',
         serverStatus: 'disconnected',
         appStatus: 'disconnected'

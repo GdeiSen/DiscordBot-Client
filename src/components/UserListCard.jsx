@@ -16,11 +16,17 @@ const UserListCard = () => {
   return (
     <>
       <div className="d-flex dashboard-card">
-        <div className="w-100">
-          <div className="d-flex justify-content-between">
-            <div className="d-flex">
+        <div>
+          <div className="header margin-bottom">
+            <div className ="icon"><i class="fs-1 bi-people-fill"></i></div>
+            <div className="name">
               <h2>Server - {store.servers?.currentServer?.server?.name}</h2>
             </div>
+          </div>
+          <div className="field">
+            {showTable()}
+            {showSpinner()}
+            {showError()}
           </div>
           <WarningField>
             Please note that this option is limited! If the discord limit is
@@ -30,11 +36,6 @@ const UserListCard = () => {
             the duration of the data request, which may exceed the quota for the
             discord request and further blocking!
           </WarningField>
-          <div className="field">
-            {showTable()}
-            {showSpinner()}
-            {showError()}
-          </div>
         </div>
         <h5>
           Total User Count: {store?.servers?.currentServer?.users?.length}

@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-const ServerListCard = () => {
-  const [showErrorState, setShowErrorState] = useState(false);
-  const [showSpinnerState, setShowSpinnerState] = useState(true);
-  const store = useSelector((state) => state);
-  useEffect(() => {
-    setShowErrorTimeOut();
-  }, [store?.servers?.list]);
+const ChartCard = () => {
   return (
     <>
       <div className="d-flex dashboard-card">
@@ -22,9 +16,7 @@ const ServerListCard = () => {
             </div>
           </div>
           <div className="field">
-            {showTable()}
-            {showSpinner()}
-            {showError()}
+            {showCharts()}
           </div>
         </div>
       </div>
@@ -63,38 +55,12 @@ const ServerListCard = () => {
     );
   }
 
-  function showTable() {
+  function showCharts() {
     return (
       <>
-        {store?.servers?.list && (
-          <table className="table">
-            <tbody>
-              {store?.servers?.list.map((server) => (
-                <tr key={uuidv4()}>
-                  <td key={uuidv4()}>
-                    <Link to={`/servers/${server.id}`} className="server-name">
-                      <h5>{server.name}</h5>
-                    </Link>
-                  </td>
-                  <td key={uuidv4()}>
-                    <p>{server.id}</p>
-                  </td>
-                  <td key={uuidv4()}>
-                    <p>{server.memberCount}</p>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        
       </>
     );
   }
-
-  function setShowErrorTimeOut() {
-    let timeOut = setTimeout(() => {
-      setShowErrorState(true);
-    }, 5000);
-  }
 };
-export default ServerListCard;
+export default ChartCard;
