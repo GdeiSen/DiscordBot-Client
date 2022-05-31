@@ -7,6 +7,8 @@ import SmallSlice from "../components/SmallSlice";
 import ServerPlaybackCard from "../components/PlaybackCard";
 import TextCard from "../components/TextCard";
 import ServerService from "../services/serverService";
+import PlaybackChartCard from "../components/PlaybackChartCard";
+import { Store } from "../store";
 const Server = () => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const Server = () => {
     if (!store.servers.list) {await serverService.getServerList()};
     serverService.getPlayback(serverId);
     serverService.getUserList(serverId);
+    serverService.getWeekStats(serverId);
     serverService.setCurrentServer(serverId);
   }, []);
   return (
@@ -60,6 +63,7 @@ const Server = () => {
         <div className="d-flex flex-wrap justify-content-between">
           <UserListCard></UserListCard>
           <ServerPlaybackCard></ServerPlaybackCard>
+          {Store.getState().servers.currentServer.stats && <PlaybackChartCard isMain="false"/>}
           <TextCard>
             <h2>Some Information Here!</h2>
             <p>

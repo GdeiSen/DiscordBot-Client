@@ -3,8 +3,16 @@ import ServerStatusCard from "../components/ServerStatusCard";
 import SliceCard from "../components/SliceCard";
 import Slice from "../components/Slice";
 import TextCard from "../components/TextCard";
+import RequestChartCard from "../components/RequestChartCard";
+import { useEffect } from "react";
+import ServerService from "../services/serverService";
+import { Store } from "../store";
+import PlaybackChartCard from "../components/PlaybackChartCard";
+import InfoField from "../components/InfoField";
+import WarningField from "../components/WarningField";
 
 const Home = () => {
+  const serverService = new ServerService();
   const showGreeting = () => {
     let date = new Date();
     let hours = date.getHours();
@@ -16,7 +24,16 @@ const Home = () => {
         : "Good Evening!";
     return greetingMessage;
   };
-
+  const showAllPlaybacks = () => {
+    let amount = 0;
+    Store.getState().servers.stats.map((obj) => {
+      amount += obj.stats.PlaybackCount;
+    });
+    return amount;
+  };
+  useEffect(() => {
+    serverService.getWeekStats();
+  }, []);
   return (
     <>
       <div className="home-header-container">
@@ -43,14 +60,13 @@ const Home = () => {
               <h5>
                 <i class="fs-1 bi-disc-fill"></i> Total Playbacks:
               </h5>
-              <h2>1275
-              </h2>
+              <h2>{Store.getState().servers?.stats && showAllPlaybacks()}</h2>
             </SliceCard>
             <SliceCard>
               <h5>
                 <i class="fs-1 bi-bug-fill"></i> Total Errors:
               </h5>
-              <h2>2</h2>
+              <h2>0</h2>
             </SliceCard>
             <SliceCard>
               <h5>
@@ -64,6 +80,34 @@ const Home = () => {
       <div className="content-container">
         <div className="d-flex flex-wrap justify-content-between">
           <ServerStatusCard />
+          <RequestChartCard />
+          <PlaybackChartCard isMain="true">
+            {Store.getState().servers?.stats && (
+              <InfoField>
+                <div className="field-container">
+                  <WarningField>
+                    This graphical table shows a graph, namely, the statistics
+                    of enabling the audio stream of the bot for all servers. The
+                    main logic is organized in a database micro service
+                  </WarningField>
+                </div>
+                <div className="field-container">
+                  <div className="container-row">
+                    <h6 className="label">Max for Today :</h6>
+                    <h4 className="data">
+                      {Store.getState().servers.stats[6]?.stats?.PlaybackCount}
+                    </h4>
+                  </div>
+                  <div className="container-row">
+                    <h6 className="label">Max for Yesterday :</h6>
+                    <h4 className="data">
+                      {Store.getState().servers.stats[5]?.stats?.PlaybackCount}
+                    </h4>
+                  </div>
+                </div>
+              </InfoField>
+            )}
+          </PlaybackChartCard>
           <TextCard>
             <h2>Some Information Here!</h2>
             <p>
@@ -78,4 +122,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;
